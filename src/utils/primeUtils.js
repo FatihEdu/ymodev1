@@ -35,13 +35,30 @@ function millerRabinTest(n, a) {
 
 /**
  * Fermat asal sayı testi.
- * @param {number} n - Test edilecek tam sayı
+ * @param {number} n - Test edilecek tam sayı (Number.isSafeInteger sınırı dahilinde olmalı; büyük sayılarda hassasiyet kaybı oluşur)
  * @param {number} k - Tekrar sayısı (güvenilirlik için)
  * @returns {boolean}
  */
 export function fermatTest(n, k) {
-    // TODO: implement
-    throw new Error('fermatTest henüz implemente edilmedi');
+    if (!Number.isSafeInteger(n) || n < 2) return false;
+    if (n === 2 || n === 3) return true;
+    if (n % 2 === 0) return false;
+    const iterations = Math.max(1, Number.isFinite(k) ? Math.trunc(k) : 0); // k'yi sonlu tam sayıya çevir, en az 1
+    const bigN = BigInt(n);
+    // n >= 3 ve tek; aralık [2, n-2] en az bir eleman içerir
+    const maxBase = n - 2; // sayı (number) olarak üst sınır
+    for (let i = 0; i < iterations; i++) {
+        // 2 <= a <= n-2 olacak şekilde rastgele taban seç
+        const aNum = 2 + Math.floor(Math.random() * (maxBase - 1));
+        const a = BigInt(aNum);
+        // Fermat: a^(n-1) ≡ 1 (mod n) olmalı; aksi halde bileşiktir
+        const result = powmod(a, bigN - 1n, bigN);
+        if (result !== 1n) {
+            return false;
+        }
+    }
+    // döngüde takılmadı: yüksek ihtimalle asal
+    return true;
 }
 
 /**
@@ -50,8 +67,17 @@ export function fermatTest(n, k) {
  * @returns {boolean}
  */
 export function trialDivision(n) {
-    // TODO: implement
-    throw new Error('trialDivision henüz implemente edilmedi');
+    if (!Number.isSafeInteger(n)) return false;
+    if (n <= 1) return false;
+    if (n <= 3) return true;
+    if (n % 2 === 0 || n % 3 === 0) return false;
+
+    const limit = Math.floor(Math.sqrt(n));
+    for (let i = 5; i <= limit; i += 6) {
+        if (n % i === 0 || n % (i + 2) === 0) return false;
+    }
+
+    return true;
 }
 
 /**
