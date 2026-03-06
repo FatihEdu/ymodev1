@@ -39,9 +39,26 @@ function millerRabinTest(n, a) {
  * @param {number} k - Tekrar sayısı (güvenilirlik için)
  * @returns {boolean}
  */
-export function fermatTest(n, k) {
-    // TODO: implement
-    throw new Error('fermatTest henüz implemente edilmedi');
+export function fermatTest(n, k)
+    if (!Number.isInteger(n) || n < 2) return false;
+    if (n === 2 || n === 3) return true;
+    if (n % 2 === 0) return false;
+    const iterations = Math.max(1, (k | 0) || 0); // k'yi pozitif tam sayıya zorla, en az 1
+    const bigN = BigInt(n);
+    // n >= 3 ve tek; aralık [2, n-2] en az bir eleman içerir
+    const maxBase = n - 2; // sayı (number) olarak üst sınır
+    for (let i = 0; i < iterations; i++) {
+        // 2 <= a <= n-2 olacak şekilde rastgele taban seç
+        const aNum = 2 + Math.floor(Math.random() * (maxBase - 1));
+        const a = BigInt(aNum);
+        // Fermat: a^(n-1) ≡ 1 (mod n) olmalı; aksi halde bileşiktir
+        const result = powmod(a, bigN - 1n, bigN);
+        if (result !== 1n) {
+            return false;
+        }
+    }
+    //döngüde takılmadı: yüksek ihtimalle asal
+    return true;
 }
 
 /**
