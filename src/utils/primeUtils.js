@@ -35,12 +35,12 @@ function millerRabinTest(n, a) {
 
 /**
  * Fermat asal sayı testi.
- * @param {number} n - Test edilecek tam sayı
+ * @param {number} n - Test edilecek tam sayı (Number.isSafeInteger sınırı dahilinde olmalı; büyük sayılarda hassasiyet kaybı oluşur)
  * @param {number} k - Tekrar sayısı (güvenilirlik için)
  * @returns {boolean}
  */
-export function fermatTest(n, k)
-    if (!Number.isInteger(n) || n < 2) return false;
+export function fermatTest(n, k) {
+    if (!Number.isSafeInteger(n) || n < 2) return false;
     if (n === 2 || n === 3) return true;
     if (n % 2 === 0) return false;
     const iterations = Math.max(1, Number.isFinite(k) ? Math.trunc(k) : 0); // k'yi sonlu tam sayıya çevir, en az 1
