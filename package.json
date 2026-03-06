@@ -1,0 +1,22 @@
+{
+  "name": "express-worker-openapi",
+  "version": "1.0.0",
+  "description": "An Express.js project with worker and job functionality and automatic OpenAPI documentation.",
+  "type": "module",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "swagger-jsdoc": "^6.0.0",
+    "swagger-ui-express": "^4.1.6",
+    "bull": "^3.18.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.0"
+  },
+  "author": "",
+  "license": "ISC"
+}
