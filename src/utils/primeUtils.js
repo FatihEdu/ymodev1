@@ -43,7 +43,7 @@ export function fermatTest(n, k)
     if (!Number.isInteger(n) || n < 2) return false;
     if (n === 2 || n === 3) return true;
     if (n % 2 === 0) return false;
-    const iterations = Math.max(1, (k | 0) || 0); // k'yi pozitif tam sayıya zorla, en az 1
+    const iterations = Math.max(1, Number.isFinite(k) ? Math.trunc(k) : 0); // k'yi sonlu tam sayıya çevir, en az 1
     const bigN = BigInt(n);
     // n >= 3 ve tek; aralık [2, n-2] en az bir eleman içerir
     const maxBase = n - 2; // sayı (number) olarak üst sınır
