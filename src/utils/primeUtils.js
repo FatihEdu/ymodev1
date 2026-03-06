@@ -11,8 +11,10 @@
  * @throws {TypeError} n geçerli bir tam sayı değilse
  */
 function assertSafeInteger(n) {
-    if (!Number.isSafeInteger(n))
-        throw new TypeError(`n geçerli bir tam sayı olmalıdır (gelen: ${n})`);
+    if (!Number.isSafeInteger(n)) {
+        const value = String(n);
+        throw new TypeError(`n geçerli bir güvenli tam sayı (Number.isSafeInteger) olmalıdır (gelen: ${value})`);
+    }
 }
 
 function powmod(base, exp, mod) {
