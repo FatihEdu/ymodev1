@@ -13,5 +13,8 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 // Routes
 app.use('/', indexRoutes);
 app.use('/jobs', jobRoutes);
+app.get('/health', (req, res) => {
+    res.status(200).json({ status: 'success', message: 'Sistem sağlıklı çalışıyor!' });
+});
 
 export default app;
