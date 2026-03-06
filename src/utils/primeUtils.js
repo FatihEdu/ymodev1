@@ -57,7 +57,7 @@ export function fermatTest(n, k) {
             return false;
         }
     }
-    //döngüde takılmadı: yüksek ihtimalle asal
+    // döngüde takılmadı: yüksek ihtimalle asal
     return true;
 }
 
