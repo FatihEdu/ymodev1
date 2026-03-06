@@ -85,7 +85,7 @@ export function trialDivision(n) {
  * @returns {boolean}
  */
 export function isPrime(n) {
-    if (n < 2) return false;
+    if (!Number.isSafeInteger(n) || n < 2) return false;
 
     // Daha sonra fermatTest ve trialDivision da dahil edilecek.
     const SMALL_PRIMES = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37];
