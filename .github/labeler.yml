@@ -1,0 +1,35 @@
+documentation:
+  - '**/*.md'
+
+github-actions:
+  - '.github/workflows/**'
+  - '.github/labeler.yml'
+
+javascript:
+  - '**/*.js'
+  - '**/*.mjs'
+  - '**/*.cjs'
+
+typescript:
+  - '**/*.ts'
+  - '**/*.tsx'
+
+dependencies:
+  - 'package.json'
+  - 'package-lock.json'
+  - 'yarn.lock'
+
+configuration:
+  - '**/*.json'
+  - '**/*.yml'
+  - '**/*.yaml'
+  - '.gitignore'
+  - '.env.example'
+
+tests:
+  - '**/*.test.js'
+  - '**/*.test.ts'
+  - '**/*.spec.js'
+  - '**/*.spec.ts'
+  - 'test/**'
+  - '__tests__/**'
