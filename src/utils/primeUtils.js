@@ -40,7 +40,8 @@ function millerRabinTest(n, a) {
  * @returns {boolean}
  */
 export function fermatTest(n, k) {
-    if (!Number.isSafeInteger(n) || n < 2) return false;
+    if (!Number.isSafeInteger(n)) throw new TypeError(`n geçerli bir tam sayı olmalıdır (gelen: ${n})`);
+    if (n < 2) return false;
     if (n === 2 || n === 3) return true;
     if (n % 2 === 0) return false;
     const iterations = Math.max(1, Number.isFinite(k) ? Math.trunc(k) : 0); // k'yi sonlu tam sayıya çevir, en az 1
@@ -67,7 +68,7 @@ export function fermatTest(n, k) {
  * @returns {boolean}
  */
 export function trialDivision(n) {
-    if (!Number.isSafeInteger(n)) return false;
+    if (!Number.isSafeInteger(n)) throw new TypeError(`n geçerli bir tam sayı olmalıdır (gelen: ${n})`);
     if (n <= 1) return false;
     if (n <= 3) return true;
     if (n % 2 === 0 || n % 3 === 0) return false;
@@ -85,7 +86,8 @@ export function trialDivision(n) {
  * @returns {boolean}
  */
 export function isPrime(n) {
-    if (!Number.isSafeInteger(n) || n < 2) return false;
+    if (!Number.isSafeInteger(n)) throw new TypeError(`n geçerli bir tam sayı olmalıdır (gelen: ${n})`);
+    if (n < 2) return false;
 
     // Daha sonra fermatTest ve trialDivision da dahil edilecek.
     const SMALL_PRIMES = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37];
