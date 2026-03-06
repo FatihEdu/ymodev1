@@ -8,11 +8,6 @@ const swaggerOptions = {
             version: '1.0.0',
             description: 'Bu API, Express Jobs kullanarak asal sayı testleri yapmanızı sağlar.',
         },
-        servers: [
-            {
-                url: 'http://localhost:3000',
-            },
-        ],
     },
     apis: ['./src/routes/*.js'],
 };
