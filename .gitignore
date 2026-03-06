@@ -1,6 +1,9 @@
 # Fatih'in plugin'i için :D
 .specstory/
 
+# Yine .gitignored olsun bence klasör
+.gitignored/
+
 # Logs
 logs
 *.log
