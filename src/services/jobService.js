@@ -25,10 +25,21 @@ class JobService {
         return this.queue.getAllJobs();
     }
 
+    _parseId(id) {
+        const parsedId = Number(id);
+        if (!Number.isInteger(parsedId)) {
+            const err = new Error(`Geçersiz ID: '${id}' bir tam sayı olmalıdır`);
+            err.statusCode = 400;
+            throw err;
+        }
+        return parsedId;
+    }
+
     getJob(id) {
-        const job = this.queue.getJob(Number(id));
+        const parsedId = this._parseId(id);
+        const job = this.queue.getJob(parsedId);
         if (!job) {
-            const err = new Error(`${id} ID'li iş bulunamadı`);
+            const err = new Error(`${parsedId} ID'li iş bulunamadı`);
             err.statusCode = 404;
             throw err;
         }
@@ -36,7 +47,7 @@ class JobService {
     }
 
     cancelJob(id) {
-        return this.queue.cancelJob(Number(id));
+        return this.queue.cancelJob(this._parseId(id));
     }
 }
 
