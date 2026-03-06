@@ -2,23 +2,29 @@ import { Router } from 'express';
 import JobController from '../controllers/jobController.js';
 import JobService from '../services/jobService.js';
 import Queue from '../utils/queue.js';
+import WorkerPool from '../workers/workerPool.js';
 
 const router = Router();
-const jobService = new JobService(new Queue());
+
+const queue = new Queue();
+const workerPool = new WorkerPool(queue, 3);
+workerPool.start();
+
+const jobService = new JobService(queue);
 const jobController = new JobController(jobService);
 
 /**
  * @swagger
  * tags:
  *   name: Jobs
- *   description: Job management operations
+ *   description: Asal sayı kontrol işleri
  */
 
 /**
  * @swagger
  * /jobs:
  *   post:
- *     summary: Create a new job
+ *     summary: Yeni bir asal sayı kontrol işi oluştur
  *     tags: [Jobs]
  *     requestBody:
  *       required: true
@@ -26,16 +32,20 @@ const jobController = new JobController(jobService);
  *         application/json:
  *           schema:
  *             type: object
+ *             required:
+ *               - n
  *             properties:
- *               title:
- *                 type: string
- *               description:
- *                 type: string
+ *               n:
+ *                 type: integer
+ *                 minimum: 2
+ *                 maximum: 9007199254740991
+ *                 description: Asal sayı kontrolü yapılacak tam sayı
+ *                 example: 104729
  *     responses:
- *       201:
- *         description: Job created successfully
+ *       202:
+ *         description: İş kuyruğa alındı (status=pending)
  *       400:
- *         description: Invalid input
+ *         description: n parametresi eksik
  */
 router.post('/', jobController.createJob.bind(jobController));
 
@@ -43,25 +53,56 @@ router.post('/', jobController.createJob.bind(jobController));
  * @swagger
  * /jobs:
  *   get:
- *     summary: Retrieve all jobs
+ *     summary: Tüm işleri listele
  *     tags: [Jobs]
  *     responses:
  *       200:
- *         description: A list of jobs
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 type: object
- *                 properties:
- *                   id:
- *                     type: string
- *                   title:
- *                     type: string
- *                   description:
- *                     type: string
+ *         description: İş listesi
  */
 router.get('/', jobController.getJobs.bind(jobController));
+
+/**
+ * @swagger
+ * /jobs/{id}:
+ *   get:
+ *     summary: Belirli bir işi getir
+ *     tags: [Jobs]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: İş ID'si
+ *     responses:
+ *       200:
+ *         description: İş detayı
+ *       404:
+ *         description: İş bulunamadı
+ */
+router.get('/:id', jobController.getJob.bind(jobController));
+
+/**
+ * @swagger
+ * /jobs/{id}:
+ *   delete:
+ *     summary: Bekleyen (pending) bir işi iptal et
+ *     tags: [Jobs]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: İş ID'si
+ *     responses:
+ *       200:
+ *         description: İş iptal edildi (status=cancelled)
+ *       404:
+ *         description: İş bulunamadı
+ *       409:
+ *         description: İş işleniyor veya zaten tamamlandı/iptal edildi
+ */
+router.delete('/:id', jobController.cancelJob.bind(jobController));
 
 export default router;

@@ -3,22 +3,36 @@ class JobController {
         this.jobService = jobService;
     }
 
-    async createJob(req, res) {
+    createJob(req, res) {
         try {
-            const jobData = req.body;
-            const job = await this.jobService.createJob(jobData);
-            res.status(201).json(job);
+            const job = this.jobService.createJob(req.body);
+            res.status(202).json(job);
         } catch (error) {
-            res.status(500).json({ message: error.message });
+            res.status(error.statusCode ?? 500).json({ message: error.message });
         }
     }
 
-    async getJobs(req, res) {
+    getJobs(req, res) {
         try {
-            const jobs = await this.jobService.getJobs();
-            res.status(200).json(jobs);
+            res.status(200).json(this.jobService.getJobs());
         } catch (error) {
-            res.status(500).json({ message: error.message });
+            res.status(error.statusCode ?? 500).json({ message: error.message });
+        }
+    }
+
+    getJob(req, res) {
+        try {
+            res.status(200).json(this.jobService.getJob(req.params.id));
+        } catch (error) {
+            res.status(error.statusCode ?? 500).json({ message: error.message });
+        }
+    }
+
+    cancelJob(req, res) {
+        try {
+            res.status(200).json(this.jobService.cancelJob(req.params.id));
+        } catch (error) {
+            res.status(error.statusCode ?? 500).json({ message: error.message });
         }
     }
 }
