@@ -6,10 +6,21 @@ import WorkerPool from '../workers/workerPool.js';
 
 const router = Router();
 
-const queue = new Queue();
-const workerPool = new WorkerPool(queue, 3);
-workerPool.start();
+const GLOBAL_QUEUE_KEY = '__JOBS_QUEUE__';
+const GLOBAL_WORKER_POOL_KEY = '__JOBS_WORKER_POOL__';
 
+const globalObject = globalThis;
+
+if (!globalObject[GLOBAL_QUEUE_KEY]) {
+  const queueInstance = new Queue();
+  const workerPoolInstance = new WorkerPool(queueInstance, 3);
+  workerPoolInstance.start();
+
+  globalObject[GLOBAL_QUEUE_KEY] = queueInstance;
+  globalObject[GLOBAL_WORKER_POOL_KEY] = workerPoolInstance;
+}
+
+const queue = globalObject[GLOBAL_QUEUE_KEY];
 const jobService = new JobService(queue);
 const jobController = new JobController(jobService);
 
