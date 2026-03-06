@@ -9,6 +9,15 @@ class JobService {
             err.statusCode = 400;
             throw err;
         }
+
+        const n = Number(jobData.n);
+        if (!Number.isFinite(n) || !Number.isInteger(n)) {
+            const err = new Error("'n' parametresi geçerli bir tamsayı olmalıdır");
+            err.statusCode = 400;
+            throw err;
+        }
+
+        jobData.n = n;
         return this.queue.addJob(jobData);
     }
 
