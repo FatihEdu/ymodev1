@@ -1,6 +1,6 @@
 /**
  * Miller-Rabin deterministik asal sayı testi.
- * Number.MAX_SAFE_INT (2^53 - 1) dahil tüm tam sayılar için doğru sonuç verir.
+ * Number.MAX_SAFE_INTEGER (2^53 - 1) dahil tüm tam sayılar için doğru sonuç verir.
  * Seçilen witness'lar 3.317 × 10^24'e kadar olan sayılarda deterministiktir.
  */
 
