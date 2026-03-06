@@ -4,9 +4,9 @@ const swaggerOptions = {
     swaggerDefinition: {
         openapi: '3.0.0',
         info: {
-            title: 'Express Worker API',
+            title: 'Express Jobs ile Asal Sayı Testleri API',
             version: '1.0.0',
-            description: 'API documentation for the Express Worker project',
+            description: 'Bu API, Express Jobs kullanarak asal sayı testleri yapmanızı sağlar.',
         },
         servers: [
             {

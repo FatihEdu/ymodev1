@@ -4,7 +4,8 @@ class JobWorker {
     }
 
     processJob(job) {
-        console.log(`Processing job: ${JSON.stringify(job)}`);
+        console.log(`İş işleniyor: ${JSON.stringify(job)}`);
+        // Buraya asıl iş işleme mantığını ekleyeceğiz. Yani, asal sayı testi.
     }
 
     start() {

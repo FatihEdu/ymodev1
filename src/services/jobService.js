@@ -5,7 +5,7 @@ class JobService {
 
     createJob(jobData) {
         this.queue.addJob(jobData);
-        return { status: 'Job created successfully', data: jobData };
+        return { status: 'İş oluşturuldu.', data: jobData };
     }
 
     getJobs() {
