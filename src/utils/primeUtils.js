@@ -50,6 +50,7 @@ export function fermatTest(n, k) {
  * @returns {boolean}
  */
 export function trialDivision(n) {
+    if (!Number.isSafeInteger(n)) return false;
     if (n <= 1) return false;
     if (n <= 3) return true;
     if (n % 2 === 0 || n % 3 === 0) return false;
