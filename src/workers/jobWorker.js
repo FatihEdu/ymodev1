@@ -52,8 +52,21 @@ class JobWorker {
             this._runTest(job, 'trialDivision', n),
         ]);
 
-        this.queue.updateJob(job.id, { status: 'completed' });
-        console.log(`[Worker ${this.id}] Tamamlandı → id:${job.id}`);
+        // Herhangi bir test başarısız olduysa job'u 'failed' olarak işaretle
+        const failedTests = Object.entries(job.tests)
+            .filter(([, result]) => result.status === 'failed')
+            .map(([name]) => name);
+
+        if (failedTests.length > 0) {
+            this.queue.updateJob(job.id, {
+                status: 'failed',
+                error: `Başarısız testler: ${failedTests.join(', ')}`,
+            });
+            console.log(`[Worker ${this.id}] Başarısız → id:${job.id}, başarısız testler: ${failedTests.join(', ')}`);
+        } else {
+            this.queue.updateJob(job.id, { status: 'completed' });
+            console.log(`[Worker ${this.id}] Tamamlandı → id:${job.id}`);
+        }
     }
 
     /**
