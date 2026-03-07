@@ -38,6 +38,11 @@ Geliştirme ortamında projeyi başlatmak için:
 ```bash
 npm start
 
+veya dosya değişince otomatik yeniden başlaması için:
+
+```bash
+npm run dev
+
 
 Uygulama çalıştıktan sonra API istekleri gönderilebilir.
 
