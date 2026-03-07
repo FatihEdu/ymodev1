@@ -21,6 +21,7 @@ src/
  ├── routes/        # API route tanımları
  ├── services/      # İş mantığı
  ├── workers/       # Arka plan işleyicilerie
+```
 
 ## Kurulum
 
@@ -30,6 +31,7 @@ Projeyi bilgisayarına almak için:
 git clone <repo-link>
 cd ymodev1
 npm install
+```
 
 ## Çalıştırma
 
@@ -37,12 +39,13 @@ Geliştirme ortamında projeyi başlatmak için:
 
 ```bash
 npm start
+```
 
 veya dosya değişince otomatik yeniden başlaması için:
 
 ```bash
 npm run dev
-
+```
 
 Uygulama çalıştıktan sonra API istekleri gönderilebilir.
 
@@ -57,6 +60,7 @@ Uygulama çalıştıktan sonra API istekleri gönderilebilir.
   "status": "ok",
   "message": "Express Jobs ile Asal Sayi Testleri API çalışıyor."
 }
+```
 
 ### Health check endpoint
 `GET /health`
@@ -66,3 +70,4 @@ Uygulama çalıştıktan sonra API istekleri gönderilebilir.
 {
   "status": "ok"
 }
+```
