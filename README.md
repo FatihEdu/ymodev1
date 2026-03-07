@@ -1,8 +1,63 @@
 # ymodev1
-Yazılım Müh. ödev 1 - Asallık testi seçip sayıyı verin, sonra iş bitince de sonucu alın.
 
-# Kurulum
-1) git clone yapın
-2) npm install
+Bu proje, **Express.js** kullanılarak geliştirilmiş bir **asal sayı testi API** uygulamasıdır.  
+Kullanıcıdan alınan sayılar üzerinde asal sayı kontrolü yapılır ve sonuç API üzerinden döndürülür.
 
-Ardından çalıştırmak için: npm start
+## Özellikler
+
+- Express.js tabanlı REST API yapısı
+- Asal sayı testi işlemleri
+- İş kuyruğu mantığı ile işlem yönetimi
+- `/health` endpointi ile servis durum kontrolü
+- Swagger/OpenAPI desteği
+- Geliştirmeye açık modüler proje yapısı
+
+## Proje Yapısı
+
+```bash
+src/
+ ├── config/        # Swagger ve diğer yapılandırmalar
+ ├── controllers/   # İstekleri yöneten controller dosyaları
+ ├── routes/        # API route tanımları
+ ├── services/      # İş mantığı
+ ├── workers/       # Arka plan işleyicilerie
+
+## Kurulum
+
+Projeyi bilgisayarına almak için:
+
+```bash
+git clone <repo-link>
+cd ymodev1
+npm install
+
+## Çalıştırma
+
+Geliştirme ortamında projeyi başlatmak için:
+
+```bash
+npm start
+
+
+Uygulama çalıştıktan sonra API istekleri gönderilebilir.
+
+## Endpointler
+
+### Ana endpoint
+`GET /`
+
+Örnek cevap:
+```json
+{
+  "status": "ok",
+  "message": "Express Jobs ile Asal Sayi Testleri API çalışıyor."
+}
+
+### Health check endpoint
+`GET /health`
+
+Örnek cevap:
+```json
+{
+  "status": "ok"
+}
