@@ -71,3 +71,5 @@ Uygulama çalıştıktan sonra API istekleri gönderilebilir.
   "status": "ok"
 }
 ```
+
+değişiklik
