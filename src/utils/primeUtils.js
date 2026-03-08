@@ -4,6 +4,19 @@
  * Seçilen witness'lar 3.317 × 10^24'e kadar olan sayılarda deterministiktir.
  */
 
+/**
+ * n'nin Number.isSafeInteger koşulunu sağlayıp sağlamadığını kontrol eder;
+ * sağlamıyorsa TypeError fırlatır.
+ * @param {*} n
+ * @throws {TypeError} n geçerli bir tam sayı değilse
+ */
+function assertSafeInteger(n) {
+    if (!Number.isSafeInteger(n)) {
+        const value = String(n);
+        throw new TypeError(`n geçerli bir güvenli tam sayı (Number.isSafeInteger) olmalıdır (gelen: ${value})`);
+    }
+}
+
 function powmod(base, exp, mod) {
     let result = 1n;
     base = base % mod;
@@ -35,15 +48,17 @@ function millerRabinTest(n, a) {
 
 /**
  * Fermat asal sayı testi.
- * @param {number} n - Test edilecek tam sayı
+ * @param {number} n - Test edilecek tam sayı (Number.isSafeInteger sınırı dahilinde olmalı; büyük sayılarda hassasiyet kaybı oluşur)
  * @param {number} k - Tekrar sayısı (güvenilirlik için)
- * @returns {boolean}
+ * @returns {boolean} n asal ise true, bileşik ise false; n < 2 için false
+ * @throws {TypeError} n geçerli bir tam sayı (Number.isSafeInteger) değilse
  */
-export function fermatTest(n, k)
-    if (!Number.isInteger(n) || n < 2) return false;
+export function fermatTest(n, k) {
+    assertSafeInteger(n);
+    if (n < 2) return false;
     if (n === 2 || n === 3) return true;
     if (n % 2 === 0) return false;
-    const iterations = Math.max(1, (k | 0) || 0); // k'yi pozitif tam sayıya zorla, en az 1
+    const iterations = Math.max(1, Number.isFinite(k) ? Math.trunc(k) : 0); // k'yi sonlu tam sayıya çevir, en az 1
     const bigN = BigInt(n);
     // n >= 3 ve tek; aralık [2, n-2] en az bir eleman içerir
     const maxBase = n - 2; // sayı (number) olarak üst sınır
@@ -57,25 +72,40 @@ export function fermatTest(n, k)
             return false;
         }
     }
-    //döngüde takılmadı: yüksek ihtimalle asal
+    // döngüde takılmadı: yüksek ihtimalle asal
     return true;
 }
 
 /**
  * Trial division asal sayı testi.
  * @param {number} n - Test edilecek tam sayı
- * @returns {boolean}
+ * @returns {boolean} n asal ise true, bileşik ise false; n <= 1 için false
+ * @throws {TypeError} n geçerli bir tam sayı (Number.isSafeInteger) değilse
  */
 export function trialDivision(n) {
-    // TODO: implement
-    throw new Error('trialDivision henüz implemente edilmedi');
+    assertSafeInteger(n);
+    if (n <= 1) return false;
+    if (n <= 3) return true;
+    if (n % 2 === 0 || n % 3 === 0) return false;
+
+    const limit = Math.floor(Math.sqrt(n));
+    for (let i = 5; i <= limit; i += 6) {
+        if (n % i === 0 || n % (i + 2) === 0) return false;
+    }
+
+    return true;
 }
 
 /**
- * @param {number} n
- * @returns {boolean}
+ * Miller-Rabin deterministik asal sayı testi (isPrime).
+ * @param {number} n - Test edilecek tam sayı
+ * @returns {boolean} n asal ise true, bileşik ise false; n < 2 için false
+ * @throws {TypeError} n geçerli bir tam sayı (Number.isSafeInteger) değilse
  */
 export function isPrime(n) {
+    assertSafeInteger(n);
+    if (n < 2) return false;
+
     // Daha sonra fermatTest ve trialDivision da dahil edilecek.
     const SMALL_PRIMES = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37];
 
